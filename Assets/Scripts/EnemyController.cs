@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate ()
     {
-	    if(grounded)
+	    if(this.grounded)
         {
             this.anim.SetInteger("State", 1);
             this.rb2d.velocity = new Vector2(this._transform.localScale.x, 0) * this.speed;
@@ -67,13 +67,13 @@ public class EnemyController : MonoBehaviour {
 
     private void _flip()
     {
-        if (this._transform.localScale.x == 1)
+        if (this._transform.localScale.x == 0)
         {
-            this._transform.localScale = new Vector3(-20f, 20f, 1f);
+            this._transform.localScale = new Vector3(20f, 20f, 1f);
         }
         else
         {
-            this._transform.localScale = new Vector3(20f, 20f, 1f); // reset to normal scale
+            this._transform.localScale = new Vector3(-20f, 20f, 1f); // reset to normal scale
         }
     }
 }

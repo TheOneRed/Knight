@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour {
 	
 	}
 
+ 
     void FixedUpdate()
     {
         float forceX = 0f;
@@ -110,6 +111,14 @@ public class PlayerController : MonoBehaviour {
         if (otherCollider.gameObject.CompareTag("Ground"))
         {
             this._isGrounded = true;
+        }
+    }
+
+    void OnTriggerEnter2D (Collider2D other)
+    {
+        if(other.tag == "Crystal")
+        {
+            Destroy(other.gameObject);
         }
     }
 
