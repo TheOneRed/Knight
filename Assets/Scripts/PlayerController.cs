@@ -20,7 +20,10 @@ public class PlayerController : MonoBehaviour {
     public float speed = 50f;
     public float jump = 500f;
     public VelocityRange velocityRange = new VelocityRange(300f, 1000f);
-    public int gemValue;
+    public int blueValue;
+	public int redValue;
+	public int greenValue;
+	public int yellowValue;
 
     //private variables
     private Rigidbody2D rb2d;
@@ -147,11 +150,33 @@ public class PlayerController : MonoBehaviour {
     // HIT DETECTION ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Crystal")
-        {
-            this.crystal.Play();
-            gameController.GainScore(gemValue);
-            Destroy(other.gameObject);
-        }
-    }
+        if (other.tag == "Crystal") 
+		{
+			this.crystal.Play ();
+			gameController.GainScore (blueValue);
+			Destroy (other.gameObject);
+		}
+
+		if (other.tag == "RedCrystal") 
+		{
+			this.crystal.Play ();
+			gameController.GainScore (redValue);
+			Destroy (other.gameObject);
+		}
+
+		if (other.tag == "GreenCrystal") 
+		{
+			this.crystal.Play ();
+			gameController.GainScore (greenValue);
+			Destroy (other.gameObject);
+		}
+
+		if (other.tag == "YellowCrystal") 
+		{
+			this.crystal.Play ();
+			gameController.GainScore (yellowValue);
+			Destroy (other.gameObject);
+		}
+	}
+
 }

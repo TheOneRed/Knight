@@ -7,23 +7,32 @@ public class EnemyController : MonoBehaviour {
     public float speed = 1f;
     public Transform visionStart;
     public Transform visionEnd;
+	public int lifeValue;
 
     //private instances
     private Rigidbody2D rb2d;
     private Transform _transform;
-    private Animator anim;
-    private CircleCollider2D death;
+	private Animator anim;
 
     private bool grounded = false;
     private bool NOPE = false;
 
+	private GameController gameController;
+
 	// Use this for initialization
 	void Start ()
     {
+		// Finding GameController game object to access methods in GameController script 
+		GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+		if (gameControllerObject != null)
+		{
+			gameController = gameControllerObject.GetComponent<GameController>();
+		}
+
         this.rb2d = gameObject.GetComponent<Rigidbody2D>();
         this._transform = gameObject.GetComponent<Transform>();
-        this.anim = gameObject.GetComponent<Animator>();
-        this.death = gameObject.GetComponent<CircleCollider2D>();
+		this.anim = gameObject.GetComponent<Animator> ();
+
 	}
 	
 	// Update is called once per frame
@@ -76,4 +85,20 @@ public class EnemyController : MonoBehaviour {
             this._transform.localScale = new Vector3(-20f, 20f, 1f); // reset to normal scale
         }
     }
+
+	void OnTriggerEnter2D (Collider2D other)
+	{
+		if (other.tag == "Player") 
+		{
+			this.anim.SetInteger("State", 2);
+			gameObject.GetComponent<Collider2D> ().enabled = false;
+			gameController.LoseLife(lifeValue);
+			speed = 0;
+			Destroy (gameObject, 2f);
+			
+		}
+		
+	}
+	
+
 }

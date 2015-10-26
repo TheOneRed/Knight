@@ -5,12 +5,12 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 
     public Text scoreText;
-    //public Text livesText;
+    public Text livesText;
     //public Text gameOverText;
     //public Text finalScoreText;
     //public Text restartText;
     public int scoreValue = 0;
-    //public int livesValue = 5;
+    public int livesValue = 5;
 
     // Use this for initialization
     void Start () {
@@ -34,4 +34,18 @@ public class GameController : MonoBehaviour {
     {
         scoreText.text = "Score: " + scoreValue;
     }
+
+	// When player collides with a Enemy
+	public void LoseLife(int newLifeValue)
+	{
+		livesValue -= newLifeValue;
+		UpdateLives();
+	}
+	
+	// Updates lives value from above
+	public void UpdateLives()
+	{
+		livesText.text = "Lives: " + livesValue;
+	}
+
 }
