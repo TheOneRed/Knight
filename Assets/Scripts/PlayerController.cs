@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour {
     public float speed = 50f;
     public float jump = 500f;
     public VelocityRange velocityRange = new VelocityRange(300f, 1000f);
+    public int gemValue;
 
     //private variables
     private Rigidbody2D rb2d;
@@ -28,19 +29,34 @@ public class PlayerController : MonoBehaviour {
     private float _movingValue = 0;
     private bool _isFacingRight = true;
     private bool _isGrounded = true;
+
+    private AudioSource[] soundCLips;
+    private AudioSource jumping, crystal;
+
+    private GameController gameController;
    
 
     // Use this for initialization
     void Start ()
     {
+        // Finding GameController game object to access methods in GameController script 
+        GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+        if (gameControllerObject != null)
+        {
+            gameController = gameControllerObject.GetComponent<GameController>();
+        }
+
         this.rb2d = gameObject.GetComponent<Rigidbody2D>();
         this._transform = gameObject.GetComponent<Transform>();
         this.anim = gameObject.GetComponent<Animator>();
 
+        this.soundCLips = gameObject.GetComponents<AudioSource>();
+        this.jumping = soundCLips[0];
+        this.crystal = soundCLips[1];
 	
 	}
 
- 
+    // MOVEMENT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
     void FixedUpdate()
     {
         float forceX = 0f;
@@ -97,6 +113,7 @@ public class PlayerController : MonoBehaviour {
                 if (absVelY < this.velocityRange.vMax)
                 {
                     forceY = this.jump;
+                    this.jumping.Play();
                     this._isGrounded = false;
                 }
             }
@@ -114,15 +131,7 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    void OnTriggerEnter2D (Collider2D other)
-    {
-        if(other.tag == "Crystal")
-        {
-            Destroy(other.gameObject);
-        }
-    }
 
-    // PRIVATE METHODS
     private void _flip()
     {
         if (this._isFacingRight)
@@ -135,4 +144,14 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    // HIT DETECTION ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Crystal")
+        {
+            this.crystal.Play();
+            gameController.GainScore(gemValue);
+            Destroy(other.gameObject);
+        }
+    }
 }

@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour {
     private CircleCollider2D death;
 
     private bool grounded = false;
-    private bool NOPE = true;
+    private bool NOPE = false;
 
 	// Use this for initialization
 	void Start ()
@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour {
             this.NOPE = Physics2D.Linecast(this.visionStart.position, this.visionEnd.position, 1 << LayerMask.NameToLayer("Solid"));
             Debug.DrawLine(this.visionStart.position, this.visionEnd.position);
 
-            if (this.NOPE == false)
+            if (NOPE == false)
             {
                 this._flip();
             }
@@ -57,17 +57,17 @@ public class EnemyController : MonoBehaviour {
         }
     }
 
-    void OnCollisionExit2D(Collision2D otherCollider)
-    {
-        if (otherCollider.gameObject.CompareTag("Ground"))
-        {
-            this.grounded = false;
-        }
-    }
+	void OnCollisionExit2D(Collision2D otherCollider)
+	{
+		if (otherCollider.gameObject.CompareTag("Ground"))
+		{
+			this.grounded = true;
+		}
+	}
 
     private void _flip()
     {
-        if (this._transform.localScale.x == 0)
+        if (this._transform.localScale.x == -20)
         {
             this._transform.localScale = new Vector3(20f, 20f, 1f);
         }
