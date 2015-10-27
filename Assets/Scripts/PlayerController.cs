@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour {
 	public int redValue;
 	public int greenValue;
 	public int yellowValue;
+    public int boundValue;
+    public SpriteRenderer sRender;
 
     //private variables
     private Rigidbody2D rb2d;
@@ -34,7 +36,7 @@ public class PlayerController : MonoBehaviour {
     private bool _isGrounded = true;
 
     private AudioSource[] soundCLips;
-    private AudioSource jumping, crystal;
+    private AudioSource jumping, crystal; //SFX ARCADE FREE
 
     private GameController gameController;
    
@@ -177,6 +179,27 @@ public class PlayerController : MonoBehaviour {
 			gameController.GainScore (yellowValue);
 			Destroy (other.gameObject);
 		}
+
+        if(other.tag == "GrayCrystal")
+        {
+            speed = 0;
+            gameController.youWin();
+        }
+
+        if(other.tag == "Boundary")
+        {
+            this.anim.SetInteger("State", 3);
+            speed = 0;
+            gameController.LoseLife(boundValue);
+
+        }
 	}
+
+    //stops player from moving after death
+    public void killPlayer()
+    {
+        this.anim.SetInteger("State", 3); //player death state
+        speed = 0;
+    }
 
 }

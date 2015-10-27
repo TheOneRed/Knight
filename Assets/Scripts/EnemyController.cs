@@ -40,7 +40,7 @@ public class EnemyController : MonoBehaviour {
     {
 	    if(this.grounded)
         {
-            this.anim.SetInteger("State", 1);
+            this.anim.SetInteger("State", 1); //waling state
             this.rb2d.velocity = new Vector2(this._transform.localScale.x, 0) * this.speed;
 
             this.NOPE = Physics2D.Linecast(this.visionStart.position, this.visionEnd.position, 1 << LayerMask.NameToLayer("Solid"));
@@ -54,7 +54,7 @@ public class EnemyController : MonoBehaviour {
 
         else
         {
-            this.anim.SetInteger("State", 0);
+            this.anim.SetInteger("State", 0); // idle state
         }
     }
 
@@ -82,7 +82,7 @@ public class EnemyController : MonoBehaviour {
         }
         else
         {
-            this._transform.localScale = new Vector3(-20f, 20f, 1f); // reset to normal scale
+            this._transform.localScale = new Vector3(-20f, 20f, 1f); 
         }
     }
 
@@ -90,11 +90,11 @@ public class EnemyController : MonoBehaviour {
 	{
 		if (other.tag == "Player") 
 		{
-			this.anim.SetInteger("State", 2);
+			this.anim.SetInteger("State", 2); //death state
 			gameObject.GetComponent<Collider2D> ().enabled = false;
 			gameController.LoseLife(lifeValue);
-			speed = 0;
-			Destroy (gameObject, 2f);
+			speed = 0; //stops moving after death
+			Destroy (gameObject, 2f); //destroy gameObject 2 second delay so that animation can play
 			
 		}
 		
